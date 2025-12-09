@@ -1,4 +1,4 @@
-#require(tidyverse)
+# require(tidyverse)
 #library(devtools)
 # Create the pcoc ggplot package
 theme_pcoc_png <- function(){
@@ -410,7 +410,7 @@ pcoc_dd <- function(variable = 'sex'){
 }
 
 # highchart theme
-require(highcharter)
+# require(highcharter)
 pcoc_theme_hc <- hc_theme(
   chart = list(
     style = list(
@@ -456,7 +456,7 @@ pcoc_theme_hc <- hc_theme(
 )
 
 # pre filter df_report_all for add filter elements
-require(rlang)
+# require(rlang)
 
 benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks = 'all', group_by = c('Report', 'Report_ID',"EpisodeSetting"), rank_within = c('Report','EpisodeSetting'), current_report = 38, Report_ID_split = 'N'){
 
