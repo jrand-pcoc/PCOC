@@ -411,7 +411,7 @@ pcoc_dd <- function(variable = 'sex'){
 
 # highchart theme
 # require(highcharter)
-pcoc_theme_hc <- hc_theme(
+pcoc_theme_hc <- highcharter::hc_theme(
   chart = list(
     style = list(
       fontFamily = "Montserrat, sans-serif",
