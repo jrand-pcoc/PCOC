@@ -14,8 +14,13 @@ Depends:
 URL: https://github.com/jrand-pcoc/PCOC
 BugReports: https://github.com/jrand-pcoc/PCOC/issues
 Imports:
-    devtools,
-    tidyverse,
-    highcharter,
+    dplyr,
+    tidyr,
     ggplot2,
+    stringr,
+    purrr,
+    readr,
+    highcharter,
     rlang
+Suggests:
+    devtools
