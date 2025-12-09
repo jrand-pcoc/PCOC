@@ -1,5 +1,5 @@
-require(tidyverse)
-library(devtools)
+#require(tidyverse)
+#library(devtools)
 # Create the pcoc ggplot package
 theme_pcoc_png <- function(){
   theme(
