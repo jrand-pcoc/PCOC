@@ -575,7 +575,6 @@ pcoc_dd <- function(variable = 'sex'){
                   broad_diagnosis = broad_diagnosis,
                   diagnosis = diagnosis,
                   referral_source = referral_source,
-                  episode_type = episode_type,
                   episode_start_mode = episode_start_mode,
                   episode_start_accommodation = episode_start_accommodation,
                   episode_end_mode = episode_end_mode,
