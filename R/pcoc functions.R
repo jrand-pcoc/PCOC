@@ -605,6 +605,7 @@ pcoc_dd <- function(variable = 'sex'){
                   state = state,
                   indigenous_status = indigenous_status,
                   episode_setting = episode_setting,
+                  episode_setting_group = episode_setting_group,
                   country_of_birth = country_of_birth,
                   preferred_language = preferred_language,
                   broad_diagnosis = broad_diagnosis,
