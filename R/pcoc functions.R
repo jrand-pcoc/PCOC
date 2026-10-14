@@ -69,9 +69,9 @@ saveplot <- function(plot = p1, filename = 'Plot1.png', width = 7, height = 7){
   ggsave(plot = plot, filename = filename, width = width, height = height)
 }
 
-report_label <- function(Report = 37){
-  period <- case_when(Report %% 2 == 1 ~ paste0('January - June ', 2000 + (Report + 11) %/% 2),
-                      Report %% 2 == 0 ~ paste0('July - December ', 2000 + (Report + 11) %/% 2),
+report_label <- function(report = 37){
+  period <- case_when(report %% 2 == 1 ~ paste0('January - June ', 2000 + (report + 11) %/% 2),
+                      report %% 2 == 0 ~ paste0('July - December ', 2000 + (report + 11) %/% 2),
                       TRUE ~ 'Other')
   return(period)
 }
@@ -82,28 +82,33 @@ report_label <- function(Report = 37){
 #   df_pref <- read.csv('Preferred Language.csv')
 #
 #   df_pref <- df_pref %>%
-#     mutate(PreferredLanguageDesc = case_when(substr(PreferredLanguage,1,2) %in% c('81', '82', '83', '84', '85', '86', '87', '88', '89') ~ 'Australian Indigenous Languages',
+#     mutate(PreferredLanguageDesc = case_when(substr(preferred_language,1,2) %in% c('81', '82', '83', '84', '85', '86', '87', '88', '89') ~ 'Australian Indigenous Languages',
 #                                              TRUE ~ PreferredLanguageDesc)) %>%
-#     bind_rows(tibble(PreferredLanguage = c(-1,-2,-3,-4,-5),
+#     bind_rows(tibble(preferred_language = c(-1,-2,-3,-4,-5),
 #                      PreferredLanguageDesc = c('Not Stated','Not Stated','Not Stated','Not Stated','Not Stated')))
 #
 #   prefdesc <- df_pref %>%
-#     filter(PreferredLanguage == preferred_language) %>%
+#     filter(preferred_language == preferred_language) %>%
 #     pull(PreferredLanguageDesc)
 #
 #   return(prefdesc)
 # }
 
 pcoc_dd <- function(variable = 'sex'){
-  sex <- tibble(Sex = c(1,2,3,9),
-                SexDesc = c(
+  sex <- tibble(sex = c(1,2,3,9, 1,2,3,9),
+                sex_desc = c(
                   'Male',
                   'Female',
                   'Indeterminate',
-                  'Not Stated/Inadequately Described'))
+                  'Not Stated/Inadequately Described',
+                  "Male",
+                  "Female",
+                  "Other",
+                  "Not Recorded/Invalid"),
+                data_version = c(rep(3,4),rep(4,4)))
 
-  state <- tibble(State = c(1:10,99),
-                  StateAbb = c('NSW',
+  state <- tibble(state = c(1:10,99),
+                  state_abb = c('NSW',
                                'VIC',
                                'QLD',
                                'SA',
@@ -114,7 +119,7 @@ pcoc_dd <- function(variable = 'sex'){
                                'Other Australian Territories',
                                'Not Australia',
                                'Unknown/Not Recorded'),
-                  StateDesc = c(
+                  state_desc = c(
                     'New South Wales',
                     'Victoria',
                     'Queensland',
@@ -127,42 +132,43 @@ pcoc_dd <- function(variable = 'sex'){
                     'Not Australia',
                     'Unknown/Not Recorded'))
 
-  indigenous_status <- tibble(IndigenousStatus = c(1:4,9),
-                              IndigenousStatusDesc = c(
+  indigenous_status <- tibble(indigenous_status = c(1:4,9),
+                              indigenous_status_desc = c(
                                 'Aboriginal but not Torres Strait Islander Origin',
                                 'Torres Strait Islander but not Aboriginal Origin',
                                 'Both Aboriginal and Torres Strait Islander Origin',
                                 'Neither Aboriginal nor Torres Strait Islander origin',
                                 'Not Stated /Inadequately Described'))
 
-  episode_setting <- tibble(EpisodeSetting = c(1:3),
-                            EpisodeSettingDesc = c(
+  episode_setting_group <- tibble(episode_setting_group = c(1:3),
+                            episode_setting_group_desc = c(
                               'Inpatient',
                               'Ambulatory',
                               'Community'))
 
-  country_of_birth <- tibble(CountryOfBirth = c(1101, 2102, 7103, 6101, 1201, 5204, 5105, 9225,
+  country_of_birth <- tibble(country_of_birth = c(1101, 2102, 7103, 6101, 1201, 5204, 5105, 9225,
                                                 5203, 3104, 7107, 2105, 7105, 8104, 2304, 99),
-                             CountryOfBirthDesc = c('Australia', 'England', 'India', 'China', 'New Zealand', 'Philippines',
+                             country_of_birth_desc = c('Australia', 'England', 'India', 'China', 'New Zealand', 'Philippines',
                                                     'Vietnam', 'South Africa', 'Malaysia', 'Italy', 'Sri Lanka',
                                                     'Scotland', 'Nepal', 'United States of America', 'Germany',
                                                     'All other countries')
                              )
 
-  preferred_language <- tibble(PreferredLanguage = c(12, 71, 52, 42, 63, 65, 51, 23, 22, 24, 35, 92, 73,
+  preferred_language <- tibble(preferred_language = c(12, 71, 52, 42, 63, 65, 51, 23, 22, 24, 35, 92, 73,
                                                 93, 80),
-                               PreferredLanguageDesc = c(
+                               preferred_language_desc = c(
                                'English', 'Chinese', 'Hindi', 'Arabic', 'Vietnamese', 'Filipino/Indonesian',
                                'Tamil/Malayam', 'Spanish', 'Greek', 'Italian', 'Macedonian/Croatian',
                                'African languages', 'Korean', 'Samoan/Tongan', 'Australian Indigenous languages'))
 
-  broad_diagnosis <- tibble(BroadDiagnosis = c(1:2),
-                            BroadDiagnosisDesc = c(
+  broad_diagnosis <- tibble(broad_diagnosis = c(1:2),
+                            broad_diagnosis_desc = c(
                               'Malignant',
                               'Non-Malignant'))
 
-  diagnosis <- tibble(Diagnosis = c(100:114, 180, 200:213, 280, 999),
-                      DiagnosisDesc = c(
+  diagnosis <- tibble(diagnosis = c(100:114, 180, 200:213, 280, 999,
+                                    101:115,180,201:212,280,999),
+                      diagnosis_desc = c(
                         'Malignant - not further defined',
                         'Bone and soft tissue',
                         'Breast',
@@ -175,7 +181,7 @@ pcoc_dd <- function(variable = 'sex'){
                         'Pancreas',
                         'Prostate',
                         'Other urological',
-                        'Gynecological',
+                        'Gynaecological',
                         'Skin',
                         'Unknown Primary',
                         'Other primary malignancy',
@@ -193,10 +199,42 @@ pcoc_dd <- function(variable = 'sex'){
                         'Sepsis',
                         'Multiple organ failure',
                         'Other non-malignancy',
-                        'Unknown'))
+                        'Unknown',
 
-  referral_source <- tibble(ReferralSource = c(10:15, 20:25, 30, 40, 50, 60, 61, 70, 80, 90, 99),
-                            ReferralSourceDesc = c(
+                        'Bone and Soft Tissue',
+                        "Breast",
+                        "Central Nervous System",
+                        "Colorectal",
+                        "Pancreas",
+                        "Liver",
+                        "Other Gastrointestinal Tract",
+                        "Haematological",
+                        "Head and Neck",
+                        "Lung",
+                        "Prostate",
+                        "Other Urological",
+                        "Gynaecological",
+                        "Skin",
+                        "Unknown Primary",
+                        "Other Malignancy",
+                        "Cardiovascular Disease",
+                        "HIV/AIDS",
+                        "End Stage Kidney Disease",
+                        "Cerebrovascular Disease",
+                        "Motor Neuron Disease",
+                        "Dementia",
+                        "Other Neurological Disease",
+                        "Respiratory Failure",
+                        "End Stage Liver Disease",
+                        "Diabetes and its complications",
+                        "Sepsis",
+                        "Multiple organ failure",
+                        "Other Non-Malignancy",
+                        "Unknown"),
+                      data_version = c(rep(3,32),rep(4,30)))
+
+  referral_source <- tibble(referral_source = c(10:15, 20:25, 30, 40, 50, 60, 61, 70, 80, 90, 99),
+                            referral_source_desc = c(
                               'Public hospital - not further defined',
                               'Public hospital - palliative care unit/team',
                               'Public hospital - oncology unit/team',
@@ -219,20 +257,30 @@ pcoc_dd <- function(variable = 'sex'){
                               'Other',
                               'Unknown/inadequately described'))
 
-  episode_type <- tibble(EpisodeType = c(10:12, 20:22, 30:32),
-                         EpisodeTypeDesc = c(
-                           'Overnight Admitted - Not Further Specified',
-                           'Overnight Admitted - Designated Palliative Care Bed',
-                           'Overnight Admitted - Non-designated Palliative Care Bed',
-                           'Hospital Ambulatory - Not Further Specified',
-                           'Same Day Admitted',
-                           'Outpatient',
-                           'Community - Not Further Specified',
-                           'Private Residence',
-                           'Residential Aged Care Facility'))
+  episode_setting <- tibble(episode_setting = c(10:12, 20:22, 30:32,
+                                                10,11,20,21,30:32),
+                            episode_setting_desc = c(
+                               'Overnight Admitted - Not Further Specified',
+                               'Overnight Admitted - Designated Palliative Care Bed',
+                               'Overnight Admitted - Non-designated Palliative Care Bed',
+                               'Hospital Ambulatory - Not Further Specified',
+                               'Same Day Admitted',
+                               'Outpatient',
+                               'Community - Not Further Specified',
+                               'Private Residence',
+                               'Residential Aged Care Facility',
 
-  episode_start_mode <- tibble(EpisodeStartMode = c(11:16,19,21,22,99),
-                               EpisodeStartModeDesc = c(
+                               'Overnight Admitted - Designated Palliative Care Bed',
+                               'Overnight Admitted - Non-Designated Palliative Care Bed',
+                               'Same Day Admitted',
+                               'Outpatient',
+                               'Private Residence',
+                               'Residential Aged Care Facility',
+                               'Community - Other'),
+                            data_version = c(rep(3,9), rep(4,7)))
+
+  episode_start_mode <- tibble(episode_start_mode = c(11:16,19,21,22,99),
+                               episode_start_mode_desc = c(
                                  'Admitted from usual accommodation',
                                  'Admitted from other than usual accommodation',
                                  'Admitted (transferred) from another hospital',
@@ -245,8 +293,8 @@ pcoc_dd <- function(variable = 'sex'){
                                  'Not recorded'
                                ))
 
-  episode_start_accommodation <- tibble(EpisodeStartAccommodation = c(1,2,3,7,9),
-                                        EpisodeStartAccommodationDesc = c(
+  episode_start_accommodation <- tibble(episode_start_accommodation = c(1,2,3,7,9),
+                                        episode_start_accommodation_desc = c(
                                           'Private residence (including unit in retirement village)',
                                           'Residential aged care - low level care (hostel)',
                                           'Residential aged care - high level care (nursing home)',
@@ -254,8 +302,8 @@ pcoc_dd <- function(variable = 'sex'){
                                           'Unknown'
                                         ))
 
-  episode_end_mode <- tibble(EpisodeEndMode = c(11:19, 21:26, 29, 99),
-                             EpisodeEndModeDesc = c(
+  episode_end_mode <- tibble(episode_end_mode = c(11:19, 21:26, 29, 99),
+                             episode_end_mode_desc = c(
                                'Discharged to usual accommodation',
                                'Discharged to other than usual accommodation',
                                'Death',
@@ -275,23 +323,35 @@ pcoc_dd <- function(variable = 'sex'){
                                'Not recorded'
                              ))
 
-  episode_end_accommodation <- tibble(EpisodeEndAccommodation = c(1,2,3,7,9),
-                                      EpisodeEndAccommodationDesc = c(
+  episode_end_accommodation <- tibble(episode_end_accommodation = c(1,2,3,7,9),
+                                      episode_end_accommodation_desc = c(
                                         'Private residence (including unit in retirement village)',
                                         'Residential aged care - low level care (hostel)',
                                         'Residential aged care - high level care (nursing home)',
                                         'Other',
                                         'Unknown'))
 
-  place_of_death <- tibble(PlaceOfDeath = c(1,2,3,9),
-                           PlaceOfDeathDesc = c(
+  place_of_death <- tibble(place_of_death = c(1,2,3,9, 1:7,9),
+                           place_of_death_desc = c(
                              'Home',
                              'Residential Aged Care Facility',
                              'Hospital',
-                             'Unknown'))
+                             'Unknown',
 
-  phase_type <- tibble(PhaseType = c(1:5),
-                       PhaseTypeDesc = c(
+                             "Private Residence",
+                             "Residential Aged Care Facility",
+                             "Group Home",
+                             "Hospital",
+                             "Correctional Facility",
+                             "Other",
+                             "Unknown",
+                             "Not Recorded/Invalid"
+                             ),
+                           data_version = c(rep(3,4), rep(4,8)))
+
+
+  phase_type <- tibble(phase_type = c(1:5),
+                       phase_type_desc = c(
                          'Stable',
                          'Unstable',
                          'Deteriorating',
@@ -299,17 +359,17 @@ pcoc_dd <- function(variable = 'sex'){
                          'Bereavement/Post death support'
                        ))
 
-  rug_start_mobility <- tibble(RugStartMobility = c(1,3:5,9),
-                               RugStartMobilityDesc = c(
-                                 'Independent or supervision only',
-                                 'Limited physical assistance',
-                                 'Other than two persons physical assist',
-                                 'Two-person (or more) physical assist',
-                                 'Not assessed'
-                               ))
+  rug_bed <- tibble(rug_bed = c(1,3:5,9),
+                    rug_bed_desc = c(
+                       'Independent or supervision only',
+                       'Limited physical assistance',
+                       'Other than two persons physical assist',
+                       'Two-person (or more) physical assist',
+                       'Not assessed'
+                     ))
 
-  rug_start_toilet <- tibble(RugStartToileting = c(1,3:5,9),
-                             RugStartToiletingDesc = c(
+  rug_toilet <- tibble(rug_toilet = c(1,3:5,9),
+                       rug_toilet_desc = c(
                                'Independent or supervision only',
                                'Limited physical assistance',
                                'Other than two persons physical assist',
@@ -317,8 +377,8 @@ pcoc_dd <- function(variable = 'sex'){
                                'Not assessed'
                              ))
 
-  rug_start_transfer <- tibble(RugStartTransfer = c(1,3:5,9),
-                               RugStartTransferDesc = c(
+  rug_transfer <- tibble(rug_transfer = c(1,3:5,9),
+                         rug_transfer_desc = c(
                                  'Independent or supervision only',
                                  'Limited physical assistance',
                                  'Other than two persons physical assist',
@@ -326,32 +386,40 @@ pcoc_dd <- function(variable = 'sex'){
                                  'Not assessed'
                                ))
 
-  rug_start_eating <- tibble(RugStartEating = c(1:3,9),
-                             RugStartEatingDesc = c(
+  rug_eating <- tibble(rug_eating = c(1:3,9),
+                             rug_eating_desc = c(
                                'Independent or supervision only',
                                'Limited assistance',
                                'Extensive assistance/total dependence/tube fed',
                                'Not assessed'
                              ))
 
-  pcpss <- tibble(PCPSS = c(0:3,9),
-                  PCPSSDesc = c(
+  pcpss <- tibble(pcpss = c(0:3,9),
+                  pcpss_desc = c(
                     'Absent',
                     'Mild',
                     'Moderate',
                     'Severe',
                     'Not assessed'))
 
-  sas <- tibble(SAS = c(0:10),
-                SASDesc = c(
+  sas <- tibble(sas = c(0:10),
+                sas_desc = c(
                     'Absent',
                     rep('Mild', 3),
                     rep('Moderate', 4),
                     rep('Severe', 3) )
                 )
 
-  akps <- tibble(AKPS = c(sort(seq(10,100,by = 10), decreasing = TRUE),999),
-                 AKPSDesc = c(
+  esas <- tibble(esas = c(0:10),
+                 esas_desc = c(
+                  'Absent',
+                  rep('Mild', 3),
+                  rep('Moderate', 4),
+                  rep('Severe', 3) )
+  )
+
+  akps <- tibble(akps = c(sort(seq(10,100,by = 10), decreasing = TRUE),999),
+                 akps_desc = c(
                    'Normal; no complaints; no evidence of disease',
                    'Able to carry on normal activity; minor signs or symptoms',
                    'Normal activity with effort; some signs or symptoms of disease',
@@ -364,8 +432,8 @@ pcoc_dd <- function(variable = 'sex'){
                    'Comatose or barely rousable',
                    'Not assessed'))
 
-  phase_end_reason <- tibble(PhaseEndReason = c(10, 20, 30, 40, 50, 60, 70, 99),
-                             PhaseEndReasonDesc = c(
+  phase_end_reason <- tibble(phase_end_reason = c(10, 20, 30, 40, 50, 60, 70, 99),
+                             phase_end_reason_desc = c(
                                'Phase changed to Stable',
                                'Phase changed to Unstable',
                                'Phase changed to Deteriorating',
@@ -375,6 +443,129 @@ pcoc_dd <- function(variable = 'sex'){
                                'Discharge/Case Closure',
                                'Not Recorded'))
 
+  ## Version 4
+
+  assessment_type <- tibble(assessment_type = c(1:3),
+                            assessment_type_desc = c(
+                             "Comprehensive Assessment",
+                             "Ongoing Assessment",
+                             "Separation Assessment"))
+
+  referral_provider_type <- tibble(referral_provider_type = c(1:9,99),
+                                   referral_provider_type_desc = c(
+                                     "Public Hospital",
+                                     "Private Hospital",
+                                     "Outpatient Clinic",
+                                     "Specialist Medical Practice",
+                                     "General Medicine Practice",
+                                     "Community Service",
+                                     "Residential Aged Care Facility",
+                                     "Self, Carer(s), Family, Friends",
+                                     "Other",
+                                     "Not Recorded/Invalid"
+                                   ))
+
+  referral_speciality <- tibble(referral_speciality = c(1:17,99),
+                                   referral_speciality_desc = c(
+                                     "Palliative Care",
+                                     "Medical Oncology",
+                                     "Radiation Oncology",
+                                     "Respiratory Medicine",
+                                     "Cardiology",
+                                     "Haematology",
+                                     "Geriatric Medicine",
+                                     "Emergency Medicine",
+                                     "Nephrology",
+                                     "Neurology",
+                                     "Rehabilitation Medicine",
+                                     "Surgical",
+                                     "General Medicine",
+                                     "General Practice",
+                                     "Other Primary Care",
+                                     "Not Applicable - Self, Carer(s), Family, Friend",
+                                     "Other",
+                                     "Not Recorded/Invalid"
+                                   ))
+
+  setting_of_care <- tibble(setting_of_care = c(10,11,20,21,30:32),
+                            setting_of_care_desc = c(
+                              "Overnight Admitted - Designated Palliative Care Bed",
+                              "Overnight Admitted - Non-Designated Palliative Care Bed",
+                              "Same Day Admitted",
+                              "Outpatient",
+                              "Private Residence",
+                              "Residential Aged Care Facility",
+                              "Community - Other"
+                            ))
+
+  setting_of_care_group <- tibble(setting_of_care_group = c(1,2,3),
+                            setting_of_care_group_desc = c(
+                              "Inpatient",
+                              "Ambulatory",
+                              "Community"
+                            ))
+
+  patients_usual_accommodation <- tibble(patients_usual_accommodation = c(10,20,30,40,50,99),
+                                        patients_usual_accommodation_desc = c(
+                                          "Private Residence",
+                                          "Residential Aged Care Facility",
+                                          "Group Home",
+                                          "Correctional Facility",
+                                          "Other",
+                                          "Not Recorded/Invalid"
+                                        ))
+
+  patient_location_after_assessment <- tibble(patient_location_after_assessment = c(1:9,99),
+                                              patient_location_after_assessment_desc = c(
+                                                "Inpatient - Different Hospital",
+                                                "Inpatient - Different Ward in the Same Hospital",
+                                                "Inpatient - Same Ward in the Same Hospital",
+                                                "Inpatient",
+                                                "Community-Usual Accommodation",
+                                                "Community-Not Usual Accommodation, Private Residence",
+                                                "Community-Not Usual Accommodation, Residential Aged Care",
+                                                "Other",
+                                                "Not Applicable - Patient Died",
+                                                "Not Recorded/Invalid"
+                                              ))
+
+  carer_availability <- tibble(carer_availability = c(0,1,2,9),
+                               carer_availability_desc = c(
+                                 "No",
+                                 "Yes",
+                                 "Not Assessed",
+                                 "Not Recorded/Invalid"
+                               ))
+
+  mode_of_assessment <- tibble(mode_of_assessment = c(1:3,9),
+                               mode_of_assessment_desc = c(
+                                 "In Person",
+                                 "Videoconference",
+                                 "Telephone",
+                                 "Not Recorded/Invalid"
+                               ))
+
+  esas_delirium_rated_by <- tibble(esas_delirium_rated_by = c(1:4,9),
+                                   esas_delirium_rated_by_desc = c(
+                                     "Patient",
+                                     "Family/Carer",
+                                     "Clinician",
+                                     "Other",
+                                     "Not Recorded/Invalid Score"
+                                   ))
+
+  esas_other_symtpom <- tibble(esas_other_symtpom = c(1:5,8,9),
+                               esas_other_symtpom_desc = c(
+                                 "Dry or Sore Mouth",
+                                 "Itch",
+                                 "Swallowing",
+                                 "Other",
+                                 "No Other Symptoms Present",
+                                 "Not Assessed",
+                                 "Not Recorded/Invalid"
+                                   ))
+
+  ## create list
   list_dd <- list(sex = sex,
                   state = state,
                   indigenous_status = indigenous_status,
@@ -391,14 +582,26 @@ pcoc_dd <- function(variable = 'sex'){
                   episode_end_accommodation = episode_end_accommodation,
                   place_of_death = place_of_death,
                   phase_type = phase_type,
-                  rug_start_mobility = rug_start_mobility,
-                  rug_start_toilet = rug_start_toilet,
-                  rug_start_transfer = rug_start_transfer,
-                  rug_start_eating = rug_start_eating,
+                  rug_bed = rug_bed,
+                  rug_toilet = rug_toilet,
+                  rug_transfer = rug_transfer,
+                  rug_eating = rug_eating,
                   pcpss = pcpss,
                   sas = sas,
+                  esas = esas,
                   akps = akps,
-                  phase_end_reason = phase_end_reason
+                  phase_end_reason = phase_end_reason,
+                  assessment_type = assessment_type,
+                  referral_provider_type = referral_provider_type,
+                  referral_speciality = referral_speciality,
+                  setting_of_care = setting_of_care,
+                  patients_usual_accommodation = patients_usual_accommodation,
+                  patient_location_after_assessment = patient_location_after_assessment,
+                  carer_availability = carer_availability,
+                  mode_of_assessment = mode_of_assessment,
+                  esas_delirium_rated_by = esas_delirium_rated_by,
+                  esas_other_symtpom = esas_other_symtpom
+
   )
 
   return_table <- list_dd[[variable]]
@@ -458,7 +661,7 @@ pcoc_theme_hc <- hc_theme(
 # pre filter df_report_all for add filter elements
 require(rlang)
 
-benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks = 'all', group_by = c('Report', 'Report_ID',"EpisodeSetting"), rank_within = c('Report','EpisodeSetting'), current_report = 38, Report_ID_split = 'N'){
+benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks = 'all', group_by = c('report', 'report_id',"episode_setting_group"), rank_within = c('report','episode_setting_group'), current_report = 38, Report_ID_split = 'N'){
 
   curr_report_num <- current_report
 
@@ -469,14 +672,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     if(length(report_ids)==1){
 
       tbl_bm1 <- data %>%
-        filter(!is.na(FirstPhase_),
-               ReadyForCareToEpisodeStart >= 0,
-               Flag_StartInScope == 1,
-               Flag_FirstPhase == 1,
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)) %>%
+        filter(!is.na(first_phase),
+               ready_for_care_to_episode_start >= 0,
+               flag_start_in_scope == 1,
+               flag_first_phase == 1,
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)) %>%
         ungroup() %>%
-        mutate(bm1_met = ifelse(ReadyForCareToEpisodeStart <= 1, 1,0)) %>%
+        mutate(bm1_met = ifelse(ready_for_care_to_episode_start <= 1, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm1_met, na.rm = T),
                   denom = n()) %>%
@@ -484,11 +687,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -497,14 +700,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     if(length(report_ids)>1 & Report_ID_split == 'N'){
 
       tbl_bm1 <- data %>%
-        filter(!is.na(FirstPhase_),
-               ReadyForCareToEpisodeStart >= 0,
-               Flag_StartInScope == 1,
-               Flag_FirstPhase == 1,
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)) %>%
+        filter(!is.na(first_phase),
+               ready_for_care_to_episode_start >= 0,
+               flag_start_in_scope == 1,
+               flag_first_phase == 1,
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)) %>%
         ungroup() %>%
-        mutate(bm1_met = ifelse(ReadyForCareToEpisodeStart <= 1, 1,0)) %>%
+        mutate(bm1_met = ifelse(ready_for_care_to_episode_start <= 1, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm1_met, na.rm = T),
                   denom = n()) %>%
@@ -512,11 +715,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
-        mutate(comb_reportid = ifelse(Report_ID %in% c(report_ids), 'sel',Report_ID)) %>%
-        group_by(Report, comb_reportid) %>%
-        mutate(Report_ID = ifelse(sel_serv == 'Y', 'sel',Report_ID),
+        mutate(comb_reportid = ifelse(report_id %in% c(report_ids), 'sel',report_id)) %>%
+        group_by(report, comb_reportid) %>%
+        mutate(report_id = ifelse(sel_serv == 'Y', 'sel',report_id),
                met = ifelse(sel_serv == 'Y', sum(met),met),
                denom = ifelse(sel_serv == 'Y', sum(denom),denom)) %>%
         select(-perc_met) %>%
@@ -525,7 +728,7 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -535,14 +738,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     if(length(report_ids)>1 & Report_ID_split == 'Y'){
 
       tbl_bm1 <- data %>%
-        filter(!is.na(FirstPhase_),
-               ReadyForCareToEpisodeStart >= 0,
-               Flag_StartInScope == 1,
-               Flag_FirstPhase == 1,
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)) %>%
+        filter(!is.na(first_phase),
+               ready_for_care_to_episode_start >= 0,
+               flag_start_in_scope == 1,
+               flag_first_phase == 1,
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)) %>%
         ungroup() %>%
-        mutate(bm1_met = ifelse(ReadyForCareToEpisodeStart <= 1, 1,0)) %>%
+        mutate(bm1_met = ifelse(ready_for_care_to_episode_start <= 1, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm1_met, na.rm = T),
                   denom = n()) %>%
@@ -550,11 +753,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -562,14 +765,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     }
 
     tbl_bm1_all_curr <- tbl_bm1 %>%
-      filter(Report == curr_report_num)
+      filter(report == curr_report_num)
 
     tbl_bm1_sel_ot <- tbl_bm1 %>%
       filter(sel_serv == 'Y')
 
     tbl_bm1_sel_curr <- tbl_bm1 %>%
       filter(sel_serv == 'Y',
-             Report == curr_report_num)
+             report == curr_report_num)
 
 
     result$tbl_bm1 <- tbl_bm1
@@ -582,12 +785,12 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)==1){
       tbl_bm2 <- data %>%
-        filter(PhaseType == 2,
-               Flag_LessThan4 %in% c(0,1),
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)
+        filter(phase_type == 2,
+               flag_less_than_4 %in% c(0,1),
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)
         ) %>%
-        mutate(bm2_met = ifelse(PhaseLength <= 3, 1,0)) %>%
+        mutate(bm2_met = ifelse(phase_length <= 3, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm2_met, na.rm = T),
                   denom = n()) %>%
@@ -595,11 +798,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -607,12 +810,12 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)>1 & Report_ID_split == 'N'){
       tbl_bm2 <- data %>%
-        filter(PhaseType == 2,
-               Flag_LessThan4 %in% c(0,1),
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)
+        filter(phase_type == 2,
+               flag_less_than_4 %in% c(0,1),
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)
         ) %>%
-        mutate(bm2_met = ifelse(PhaseLength <= 3, 1,0)) %>%
+        mutate(bm2_met = ifelse(phase_length <= 3, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm2_met, na.rm = T),
                   denom = n()) %>%
@@ -620,11 +823,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
-        mutate(comb_reportid = ifelse(Report_ID %in% c(report_ids), 'sel',Report_ID)) %>%
-        group_by(Report, comb_reportid) %>%
-        mutate(Report_ID = ifelse(sel_serv == 'Y', 'sel',Report_ID),
+        mutate(comb_reportid = ifelse(report_id %in% c(report_ids), 'sel',report_id)) %>%
+        group_by(report, comb_reportid) %>%
+        mutate(report_id = ifelse(sel_serv == 'Y', 'sel',report_id),
                met = ifelse(sel_serv == 'Y', sum(met),met),
                denom = ifelse(sel_serv == 'Y', sum(denom),denom)) %>%
         select(-perc_met) %>%
@@ -633,7 +836,7 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -642,12 +845,12 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)>1 & Report_ID_split == 'Y'){
       tbl_bm2 <- data %>%
-        filter(PhaseType == 2,
-               Flag_LessThan4 %in% c(0,1),
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3)
+        filter(phase_type == 2,
+               flag_less_than_4 %in% c(0,1),
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3)
         ) %>%
-        mutate(bm2_met = ifelse(PhaseLength <= 3, 1,0)) %>%
+        mutate(bm2_met = ifelse(phase_length <= 3, 1,0)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(met = sum(bm2_met, na.rm = T),
                   denom = n()) %>%
@@ -655,11 +858,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         unique() %>%
         filter(denom != 0) %>%
         mutate(perc_met = met/denom*100) %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N')) %>%
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N')) %>%
         ungroup() %>%
         group_by(!!!syms(rank_within)) %>%
         arrange(!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -667,14 +870,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     }
 
     tbl_bm2_all_curr <- tbl_bm2 %>%
-      filter(Report == curr_report_num)
+      filter(report == curr_report_num)
 
     tbl_bm2_sel_ot <- tbl_bm2 %>%
       filter(sel_serv == 'Y')
 
     tbl_bm2_sel_curr <- tbl_bm2 %>%
       filter(sel_serv == 'Y',
-             Report == curr_report_num)
+             report == curr_report_num)
 
       result$tbl_bm2 <- tbl_bm2
       result$tbl_bm2_all_curr <- tbl_bm2_all_curr
@@ -685,47 +888,47 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
   if(benchmarks %in% c('3','all')){
 
     df_bm3 <- data %>%
-      filter(!is.na(Report_ID),
-             EpisodeSetting %in% c(1:3)) %>%
-      mutate(bm31_phases = case_when(PSSStartPainGroup == 0 & PSSEndPainGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     PSSStartPainGroup == 0 & PSSEndPainGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+      filter(!is.na(report_id),
+             episode_setting_group %in% c(1:3)) %>%
+      mutate(bm31_phases = case_when(pcpss_pain_start_group == 0 & pcpss_pain_end_group == 0 & phase_end_reason != 50 ~ 'met',
+                                     pcpss_pain_start_group == 0 & pcpss_pain_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm32_phases = case_when(PSSStartPainGroup == 1 & PSSEndPainGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     PSSStartPainGroup == 1 & PSSEndPainGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm32_phases = case_when(pcpss_pain_start_group == 1 & pcpss_pain_end_group == 0 & phase_end_reason != 50 ~ 'met',
+                                     pcpss_pain_start_group == 1 & pcpss_pain_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm33_phases = case_when(SASStartPainGroup == 0 & SASEndPainGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartPainGroup == 0 & SASEndPainGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm33_phases = case_when(esas_pain_group_start == 0 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_pain_group_start == 0 & esas_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm34_phases = case_when(SASStartPainGroup == 1 & SASEndPainGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartPainGroup == 1 & SASEndPainGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm34_phases = case_when(esas_pain_group_start == 1 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_pain_group_start == 1 & esas_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm35_phases = case_when(SASStartFatigueGroup == 0 & SASEndFatigueGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartFatigueGroup == 0 & SASEndFatigueGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm35_phases = case_when(esas_tiredness_group_start == 0 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_tiredness_group_start == 0 & esas_tiredness_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm36_phases = case_when(SASStartFatigueGroup == 1 & SASEndFatigueGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartFatigueGroup == 1 & SASEndFatigueGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm36_phases = case_when(esas_tiredness_group_start == 1 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_tiredness_group_start == 1 & esas_tiredness_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm37_phases = case_when(SASStartBreathingGroup == 0 & SASEndBreathingGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartBreathingGroup == 0 & SASEndBreathingGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm37_phases = case_when(esas_shortness_of_breath_group_start == 0 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_shortness_of_breath_group_start == 0 & esas_shortness_of_breath_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm38_phases = case_when(SASStartBreathingGroup == 1 & SASEndBreathingGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     SASStartBreathingGroup == 1 & SASEndBreathingGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm38_phases = case_when(esas_shortness_of_breath_group_start == 1 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     esas_shortness_of_breath_group_start == 1 & esas_shortness_of_breath_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm39_phases = case_when(PSSStartFamilyGroup == 0 & PSSEndFamilyGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                     PSSStartFamilyGroup == 0 & PSSEndFamilyGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm39_phases = case_when(pcpss_family_carer_start_group == 0 & pcpss_family_carer_end_group == 0 & phase_end_reason != 50 ~ 'met',
+                                     pcpss_family_carer_start_group == 0 & pcpss_family_carer_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm310_phases = case_when(PSSStartFamilyGroup == 1 & PSSEndFamilyGroup == 0 & PhaseEndReason != 50 ~ 'met',
-                                      PSSStartFamilyGroup == 1 & PSSEndFamilyGroup == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm310_phases = case_when(pcpss_family_carer_start_group == 1 & pcpss_family_carer_end_group == 0 & phase_end_reason != 50 ~ 'met',
+                                      pcpss_family_carer_start_group == 1 & pcpss_family_carer_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'),
-             bm311_phases = case_when(PSSStartPsychological == 0 & PSSEndPsychological == 0 & PhaseEndReason != 50 ~ 'met',
-                                      PSSStartPsychological == 0 & PSSEndPsychological == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm311_phases = case_when(pcpss_psychological_spiritual_start == 0 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
+                                      pcpss_psychological_spiritual_start == 0 & pcpss_psychological_spiritual_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'),
-             bm312_phases = case_when(PSSStartPsychological == 1 & PSSEndPsychological == 0 & PhaseEndReason != 50 ~ 'met',
-                                      PSSStartPsychological == 1 & PSSEndPsychological == 1 & PhaseEndReason != 50 ~ 'nmet',
+             bm312_phases = case_when(pcpss_psychological_spiritual_start == 1 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
+                                      pcpss_psychological_spiritual_start == 1 & pcpss_psychological_spiritual_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'))
 
     df_bm3 <- df_bm3 %>%
-      select(Report, Service_ID, Report_ID, Patient_ID, Episode_ID, EpisodeSetting, PhaseType, Phase_ID, starts_with('bm3')) %>%
+      select(report, service_id, report_id, patient_id, episode_id, episode_setting_group, phase_type, phase_id, starts_with('bm3')) %>%
       filter(bm31_phases %in% c('met','nmet')|
                bm32_phases %in% c('met','nmet')|
                bm33_phases %in% c('met','nmet')|
@@ -808,12 +1011,12 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)==1){
       tbl_bm3 <- tbl_bm3 %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N'),
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N'),
                denom = met + nmet) %>%
         ungroup() %>%
         group_by(bm,!!!syms(rank_within)) %>%
         arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -821,11 +1024,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)>1 & Report_ID_split == 'N'){
       tbl_bm3 <- tbl_bm3 %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N'),
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N'),
                denom = met + nmet) %>%
-        mutate(comb_reportid = ifelse(Report_ID %in% c(report_ids), 'sel',Report_ID)) %>%
-        group_by(Report, comb_reportid, bm) %>%
-        mutate(Report_ID = ifelse(sel_serv == 'Y', 'sel',Report_ID),
+        mutate(comb_reportid = ifelse(report_id %in% c(report_ids), 'sel',report_id)) %>%
+        group_by(report, comb_reportid, bm) %>%
+        mutate(report_id = ifelse(sel_serv == 'Y', 'sel',report_id),
                met = ifelse(sel_serv == 'Y', sum(met),met),
                nmet = ifelse(sel_serv == 'Y', sum(nmet),nmet),
                denom = ifelse(sel_serv == 'Y', sum(denom),denom)) %>%
@@ -835,7 +1038,7 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         ungroup() %>%
         group_by(bm,!!!syms(rank_within)) %>%
         arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -844,13 +1047,13 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
     if(length(report_ids)>1 & Report_ID_split == 'Y'){
       tbl_bm3 <- tbl_bm3 %>%
-        mutate(sel_serv = ifelse(Report_ID %in% c(report_ids), 'Y','N'),
+        mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N'),
                denom = met + nmet) %>%
         mutate(perc_met = met/denom*100) %>%
         ungroup() %>%
         group_by(bm,!!!syms(rank_within)) %>%
         arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
-        filter(denom >= 10 | (Report_ID %in% report_ids & denom != 0)) %>%
+        filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
         ungroup()
@@ -859,14 +1062,14 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 
 
     tbl_bm3_all_curr <- tbl_bm3 %>%
-      filter(Report == curr_report_num)
+      filter(report == curr_report_num)
 
     tbl_bm3_sel_ot <- tbl_bm3 %>%
       filter(sel_serv == 'Y')
 
     tbl_bm3_sel_curr <- tbl_bm3 %>%
       filter(sel_serv == 'Y',
-             Report == curr_report_num)
+             report == curr_report_num)
 
       result$tbl_bm3 <- tbl_bm3
       result$tbl_bm3_all_curr <- tbl_bm3_all_curr
@@ -878,17 +1081,17 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
   if(benchmarks %in% c('4','all')){
 
       tbl_bm4 <- data %>%
-        filter(PhaseEndReason != 50,
-               !is.na(Report_ID),
-               EpisodeSetting %in% c(1:3),
-               Report_ID %in% c(report_ids)) %>%
-        mutate(Report_ID = ifelse(Report_ID %in% c(report_ids), 'sel',Report_ID)) %>%
+        filter(phase_end_reason != 50,
+               !is.na(report_id),
+               episode_setting_group %in% c(1:3),
+               report_id %in% c(report_ids)) %>%
+        mutate(report_id = ifelse(report_id %in% c(report_ids), 'sel',report_id)) %>%
         group_by(!!!syms(group_by)) %>%
         summarise(
           across(
-            c(PSSPain_XCAS_2014, PSSOtherSymptoms_XCAS_2014, PSSFamily_XCAS_2014,
-              PSSPsychological_XCAS_2014, SASPain_XCAS_2014, SASNausea_XCAS_2014,
-              SASBreathing_XCAS_2014, SASBowels_XCAS_2014),
+            c(pcpss_pain_xcas_2014, pcpss_other_symptoms_xcas_2014, pcpss_family_xcas_2014,
+              pcpss_psychological_xcas_2014, esas_pain_xcas_2014, esas_nausea_xcas_2014,
+              esas_shortness_of_breath_xcas_2014, esas_constipation_xcas_2014),
             list(mean = ~ mean(., na.rm = TRUE))
           )
         ) %>%
@@ -908,7 +1111,7 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
                               TRUE ~ '-'))
 
     tbl_bm4_sel_curr <- tbl_bm4 %>%
-      filter(Report == curr_report_num)
+      filter(report == curr_report_num)
 
     result$tbl_bm4_sel_curr <- tbl_bm4_sel_curr
 
@@ -928,12 +1131,12 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 preferred_language <- function(language_codes = pref){
    data(df_preferred_language)
    df_lookup <- df_preferred_language %>%
-     mutate(PreferredLanguage = as.character(PreferredLanguage))
+     mutate(preferred_language = as.character(preferred_language))
    require(tidyverse)
-   df_codes <- tibble(PreferredLanguage = as.character(language_codes))
+   df_codes <- tibble(preferred_language = as.character(language_codes))
    df_codes <- df_codes %>%
      left_join(df_lookup,
-               by = 'PreferredLanguage') %>%
+               by = 'preferred_language') %>%
      pull(PreferredLanguageDesc)
 
    return(df_codes)
@@ -943,13 +1146,76 @@ preferred_language <- function(language_codes = pref){
 country_of_birth <- function(cob_codes = cob_codes){
   data(df_country_of_birth)
   df_lookup <- df_country_of_birth %>%
-    mutate(CountryOfBirth = as.character(CountryOfBirth))
+    mutate(country_of_birth = as.character(country_of_birth))
   require(tidyverse)
-  df_codes <- tibble(CountryOfBirth = as.character(cob_codes))
+  df_codes <- tibble(country_of_birth = as.character(cob_codes))
   df_codes <- df_codes %>%
     left_join(df_lookup,
-              by = 'CountryOfBirth') %>%
+              by = 'country_of_birth') %>%
     pull(CountryOfBirthDesc)
 
   return(df_codes)
+}
+
+# # X-CAS calculations
+# require(xlsx)
+# df_xcas_pcpss <- read.xlsx("S:/CHSD PCOC/10 Processed Data/X-CAS Baselines/2014 Baseline/SAS and PCPSS XCAS Baselines.xlsx",sheetIndex = 1)
+# df_xcas_esas <- read.xlsx("S:/CHSD PCOC/10 Processed Data/X-CAS Baselines/2014 Baseline/SAS and PCPSS XCAS Baselines.xlsx",sheetIndex = 2)
+#
+# df_xcas_pcpss <- df_xcas_pcpss %>%
+#   rename(phase_type = Phase,
+#          start_score = StartScore,
+#          pain = Pain,
+#          other_symptom = OtherSymptoms,
+#          pyschological_spiritual = Psychological,
+#          family_carer = Family) %>%
+#   mutate(phase_type = as.character(phase_type),
+#          start_score = as.character(start_score))
+#
+# df_xcas_esas <- df_xcas_esas %>%
+#   rename(phase_type = Phase,
+#          start_score = StartScore,
+#          pain = Pain,
+#          nausea = Nausea,
+#          constipation = Bowels,
+#          shortness_of_breath = Breathing) %>%
+#   mutate(phase_type = as.character(phase_type),
+#          start_score = as.character(start_score))
+
+# usethis::use_data(df_xcas_esas, overwrite = TRUE)
+# usethis::use_data(df_xcas_pcpss, overwrite = TRUE)
+
+add_xcas_esas <- function(df = df_bm, symptom = 'pain', xcas_data = df_xcas_esas) {
+  # Create column names dynamically
+  symptom_col <- paste0("esas_", symptom, "_xcas_baseline")
+  start_col <- paste0("esas_", symptom,"_start")
+
+  df <- df %>%
+    rename(start_score = as.name(start_col)) %>%
+    left_join(
+      xcas_data %>% select(phase_type, start_score, !!sym(symptom)),
+      by = c("phase_type", "start_score")
+    ) %>%
+    rename_with(~ symptom_col, !!sym(symptom)) %>%
+    rename(!!sym(start_col) := start_score)
+
+  return(df)
+}
+
+# Define the function to add PCPSS XCAS baseline values
+add_xcas_pss <- function(df=df_bm, symptom = 'pain', xcas_data = df_xcas_pcpss) {
+  # Create column names dynamically
+  symptom_col <- paste0("pcpss_", symptom, "_xcas_baseline")
+  start_col <- paste0("pcpss_", symptom,"_start")
+
+  df <- df %>%
+    rename(start_score = as.name(start_col)) %>%
+    left_join(
+      xcas_data %>% select(phase_type, start_score, !!sym(symptom)),
+      by = c("phase_type", "start_score")
+    ) %>%
+    rename_with(~ symptom_col, !!sym(symptom)) %>%
+    rename(!!sym(start_col) := start_score)
+
+  return(df)
 }
