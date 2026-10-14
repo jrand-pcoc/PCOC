@@ -302,7 +302,8 @@ pcoc_dd <- function(variable = 'sex'){
                                           'Unknown'
                                         ))
 
-  episode_end_mode <- tibble(episode_end_mode = c(11:19, 21:26, 29, 99),
+  episode_end_mode <- tibble(episode_end_mode = c(11:19, 21:26, 29, 99,
+                                                  1:9, 99),
                              episode_end_mode_desc = c(
                                'Discharged to usual accommodation',
                                'Discharged to other than usual accommodation',
@@ -320,16 +321,39 @@ pcoc_dd <- function(variable = 'sex'){
                                'Discharged to another palliative care service',
                                'Discharged to primary health care (e.g. GP)',
                                'Other',
-                               'Not recorded'
-                             ))
+                               'Not recorded',
 
-  episode_end_accommodation <- tibble(episode_end_accommodation = c(1,2,3,7,9),
-                                      episode_end_accommodation_desc = c(
+                               'Discharged to Usual Accommodation',
+                               'Discharged to Not Usual Accommodation',
+                               'Death',
+                               'Discharged to Another Hospital',
+                               'Discharged from Palliative Care - Same Ward',
+                               'Discharged from Palliative Care - Different Ward',
+                               'Change in Setting - Not Discharged',
+                               'Discharged from Non-Admitted to Inpatient',
+                               'Other',
+                               'Not Recorded/Invalid'
+                             ),
+                             data_version = c(rep(3,17), rep(4,10))
+                             )
+
+  accommodation_at_episode_end <- tibble(accommodation_at_episode_end = c(1,2,3,7,9,
+                                                                          1:6,9),
+                                      accommodation_at_episode_end_desc = c(
                                         'Private residence (including unit in retirement village)',
                                         'Residential aged care - low level care (hostel)',
                                         'Residential aged care - high level care (nursing home)',
                                         'Other',
-                                        'Unknown'))
+                                        'Unknown',
+
+                                        'Private Residence',
+                                        'Residential Aged Care',
+                                        'Group Home',
+                                        'Correctional Facility',
+                                        'Other',
+                                        'Not Applicable - Patient Died',
+                                        'Not Recorded/Invalid'),
+                                      data_version = c(rep(3,5), rep(4,7)))
 
   place_of_death <- tibble(place_of_death = c(1,2,3,9, 1:7,9),
                            place_of_death_desc = c(
@@ -432,7 +456,8 @@ pcoc_dd <- function(variable = 'sex'){
                    'Comatose or barely rousable',
                    'Not assessed'))
 
-  phase_end_reason <- tibble(phase_end_reason = c(10, 20, 30, 40, 50, 60, 70, 99),
+  phase_end_reason <- tibble(phase_end_reason = c(10, 20, 30, 40, 50, 60, 70, 99,
+                                                  10, 20, 30, 40, 50, 60, 99),
                              phase_end_reason_desc = c(
                                'Phase changed to Stable',
                                'Phase changed to Unstable',
@@ -441,7 +466,17 @@ pcoc_dd <- function(variable = 'sex'){
                                'Death',
                                'End Bereavement Phase (Post Death Support)',
                                'Discharge/Case Closure',
-                               'Not Recorded'))
+                               'Not Recorded',
+
+                               'Phase changed to Stable',
+                               'Phase changed to Unstable',
+                               'Phase changed to Deteriorating',
+                               'Phase changed to Terminal',
+                               'Death',
+                               'Discharge/Setting Change',
+                               'Not Recorded/Invalid'
+                               ),
+                             data_version = c(rep(3,8), rep(4,7)))
 
   ## Version 4
 
@@ -578,7 +613,7 @@ pcoc_dd <- function(variable = 'sex'){
                   episode_start_mode = episode_start_mode,
                   episode_start_accommodation = episode_start_accommodation,
                   episode_end_mode = episode_end_mode,
-                  episode_end_accommodation = episode_end_accommodation,
+                  accommodation_at_episode_end = accommodation_at_episode_end,
                   place_of_death = place_of_death,
                   phase_type = phase_type,
                   rug_bed = rug_bed,
