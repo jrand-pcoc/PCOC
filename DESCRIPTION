@@ -13,3 +13,14 @@ Depends:
     R (>= 3.5)
 URL: https://github.com/jrand-pcoc/PCOC
 BugReports: https://github.com/jrand-pcoc/PCOC/issues
+Imports:
+    dplyr,
+    tidyr,
+    ggplot2,
+    stringr,
+    purrr,
+    readr,
+    highcharter,
+    rlang
+Suggests:
+    devtools

@@ -1,5 +1,5 @@
-require(tidyverse)
-library(devtools)
+# require(tidyverse)
+#library(devtools)
 # Create the pcoc ggplot package
 theme_pcoc_png <- function(){
   theme(
@@ -613,8 +613,8 @@ pcoc_dd <- function(variable = 'sex'){
 }
 
 # highchart theme
-require(highcharter)
-pcoc_theme_hc <- hc_theme(
+# require(highcharter)
+pcoc_theme_hc <- highcharter::hc_theme(
   chart = list(
     style = list(
       fontFamily = "Montserrat, sans-serif",
@@ -659,7 +659,7 @@ pcoc_theme_hc <- hc_theme(
 )
 
 # pre filter df_report_all for add filter elements
-require(rlang)
+# require(rlang)
 
 benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks = 'all', group_by = c('report', 'report_id',"episode_setting_group"), rank_within = c('report','episode_setting_group'), current_report = 38, Report_ID_split = 'N'){
 
