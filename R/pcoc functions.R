@@ -924,11 +924,11 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
     df_bm3 <- data %>%
       filter(!is.na(report_id),
              episode_setting_group %in% c(1:3)) %>%
-      mutate(bm31_phases = case_when(pcpss_pain_start_group == 0 & pcpss_pain_end_group == 0 & phase_end_reason != 50 ~ 'met',
-                                     pcpss_pain_start_group == 0 & pcpss_pain_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
+      mutate(bm31_phases = case_when(pcpss_pain_group_start == 0 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     pcpss_pain_group_start == 0 & pcpss_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm32_phases = case_when(pcpss_pain_start_group == 1 & pcpss_pain_end_group == 0 & phase_end_reason != 50 ~ 'met',
-                                     pcpss_pain_start_group == 1 & pcpss_pain_end_group == 1 & phase_end_reason != 50 ~ 'nmet',
+             bm32_phases = case_when(pcpss_pain_group_start == 1 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+                                     pcpss_pain_group_start == 1 & pcpss_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
              bm33_phases = case_when(esas_pain_group_start == 0 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_pain_group_start == 0 & esas_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
@@ -1123,8 +1123,8 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         group_by(!!!syms(group_by)) %>%
         summarise(
           across(
-            c(pcpss_pain_xcas_2014, pcpss_other_symptoms_xcas_2014, pcpss_family_xcas_2014,
-              pcpss_psychological_xcas_2014, esas_pain_xcas_2014, esas_nausea_xcas_2014,
+            c(pcpss_pain_xcas_2014, pcpss_other_symptom_xcas_2014, pcpss_family_carer_xcas_2014,
+              pcpss_psychological_spiritual_xcas_2014, esas_pain_xcas_2014, esas_nausea_xcas_2014,
               esas_shortness_of_breath_xcas_2014, esas_constipation_xcas_2014),
             list(mean = ~ mean(., na.rm = TRUE))
           )
@@ -1132,16 +1132,16 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
         ungroup() %>%
         pivot_longer(cols = ends_with('mean'),
                      names_to = 'name',
-                     values_to = 'XCAS') %>%
-        mutate(name = gsub('_XCAS_2014_mean','',name)) %>%
-        mutate(bm = case_when(grepl('PSSPain',name) ~ 'bm41_phases',
-                              grepl('PSSOtherSymptoms',name) ~ 'bm42_phases',
-                              grepl('PSSFamily',name) ~ 'bm43_phases',
-                              grepl('PSSPsychological',name) ~ 'bm44_phases',
-                              grepl('SASPain',name) ~ 'bm45_phases',
-                              grepl('SASNausea',name) ~ 'bm46_phases',
-                              grepl('SASBreathing',name) ~ 'bm47_phases',
-                              grepl('SASBowels',name) ~ 'bm48_phases',
+                     values_to = 'xcas') %>%
+        mutate(name = gsub('_xcas_2014_mean','',name)) %>%
+        mutate(bm = case_when(grepl('pcpss_pain',name) ~ 'bm41_phases',
+                              grepl('pcpss_other_symptom',name) ~ 'bm42_phases',
+                              grepl('pcpss_family_carer',name) ~ 'bm43_phases',
+                              grepl('pcpss_psychological_spiritual',name) ~ 'bm44_phases',
+                              grepl('esas_pain',name) ~ 'bm45_phases',
+                              grepl('esas_nausea',name) ~ 'bm46_phases',
+                              grepl('esas_shortness_of_breath',name) ~ 'bm47_phases',
+                              grepl('esas_constipation',name) ~ 'bm48_phases',
                               TRUE ~ '-'))
 
     tbl_bm4_sel_curr <- tbl_bm4 %>%
