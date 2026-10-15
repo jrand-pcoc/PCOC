@@ -1157,10 +1157,10 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
 }
 # benchmarks(data = df_report_all, report_ids = c('P291'), benchmarks = 'all')
 
-# df_preferred_language <- read.csv('Preferred Language.csv')
-# df_country_of_birth <- read.csv('Country Of Birth.csv')
-# usethis::use_data(df_preferred_language, overwrite = TRUE)
-# usethis::use_data(df_country_of_birth, overwrite = TRUE)
+df_preferred_language <- read.csv('Preferred Language.csv')
+df_country_of_birth <- read.csv('Country Of Birth.csv')
+usethis::use_data(df_preferred_language, overwrite = TRUE)
+usethis::use_data(df_country_of_birth, overwrite = TRUE)
 # pref <- c('1201','9403','1201')
 
 preferred_language <- function(language_codes = pref){
