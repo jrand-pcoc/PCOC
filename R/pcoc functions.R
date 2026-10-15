@@ -82,14 +82,14 @@ report_label <- function(report = 37){
 #   df_pref <- read.csv('Preferred Language.csv')
 #
 #   df_pref <- df_pref %>%
-#     mutate(PreferredLanguageDesc = case_when(substr(preferred_language,1,2) %in% c('81', '82', '83', '84', '85', '86', '87', '88', '89') ~ 'Australian Indigenous Languages',
-#                                              TRUE ~ PreferredLanguageDesc)) %>%
+#     mutate(preferred_language_desc = case_when(substr(preferred_language,1,2) %in% c('81', '82', '83', '84', '85', '86', '87', '88', '89') ~ 'Australian Indigenous Languages',
+#                                              TRUE ~ preferred_language_desc)) %>%
 #     bind_rows(tibble(preferred_language = c(-1,-2,-3,-4,-5),
-#                      PreferredLanguageDesc = c('Not Stated','Not Stated','Not Stated','Not Stated','Not Stated')))
+#                      preferred_language_desc = c('Not Stated','Not Stated','Not Stated','Not Stated','Not Stated')))
 #
 #   prefdesc <- df_pref %>%
 #     filter(preferred_language == preferred_language) %>%
-#     pull(PreferredLanguageDesc)
+#     pull(preferred_language_desc)
 #
 #   return(prefdesc)
 # }
@@ -1172,7 +1172,7 @@ preferred_language <- function(language_codes = pref){
    df_codes <- df_codes %>%
      left_join(df_lookup,
                by = 'preferred_language') %>%
-     pull(PreferredLanguageDesc)
+     pull(preferred_language_desc)
 
    return(df_codes)
 }
@@ -1187,7 +1187,7 @@ country_of_birth <- function(cob_codes = cob_codes){
   df_codes <- df_codes %>%
     left_join(df_lookup,
               by = 'country_of_birth') %>%
-    pull(CountryOfBirthDesc)
+    pull(country_of_birth_desc)
 
   return(df_codes)
 }
