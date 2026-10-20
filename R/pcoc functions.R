@@ -132,7 +132,7 @@ pcoc_dd <- function(variable = 'sex'){
                     'Not Australia',
                     'Unknown/Not Recorded'))
 
-  indigenous_status <- tibble(indigenous_status = c(1:4,9),
+  indigenous_status <- tibble(indigenous_status =  as.character(c(1:4,9)),
                               indigenous_status_desc = c(
                                 'Aboriginal but not Torres Strait Islander Origin',
                                 'Torres Strait Islander but not Aboriginal Origin',
@@ -140,7 +140,7 @@ pcoc_dd <- function(variable = 'sex'){
                                 'Neither Aboriginal nor Torres Strait Islander origin',
                                 'Not Stated /Inadequately Described'))
 
-  episode_setting_group <- tibble(episode_setting_group = c(1:3),
+  episode_setting_group <- tibble(episode_setting_group =  as.character(c(1:3)),
                             episode_setting_group_desc = c(
                               'Inpatient',
                               'Ambulatory',
@@ -166,8 +166,8 @@ pcoc_dd <- function(variable = 'sex'){
                               'Malignant',
                               'Non-Malignant'))
 
-  diagnosis <- tibble(diagnosis = c(100:114, 180, 200:213, 280, 999,
-                                    101:115,180,201:212,280,999),
+  diagnosis <- tibble(diagnosis =  as.character(c(100:114, 180, 200:213, 280, 999,
+                                    101:115,180,201:212,280,999)),
                       diagnosis_desc = c(
                         'Malignant - not further defined',
                         'Bone and soft tissue',
@@ -257,8 +257,8 @@ pcoc_dd <- function(variable = 'sex'){
                               'Other',
                               'Unknown/inadequately described'))
 
-  episode_setting <- tibble(episode_setting = c(10:12, 20:22, 30:32,
-                                                10,11,20,21,30:32),
+  episode_setting <- tibble(episode_setting =  as.character(c(10:12, 20:22, 30:32,
+                                                10,11,20,21,30:32)),
                             episode_setting_desc = c(
                                'Overnight Admitted - Not Further Specified',
                                'Overnight Admitted - Designated Palliative Care Bed',
@@ -302,8 +302,8 @@ pcoc_dd <- function(variable = 'sex'){
                                           'Unknown'
                                         ))
 
-  episode_end_mode <- tibble(episode_end_mode = c(11:19, 21:26, 29, 99,
-                                                  1:9, 99),
+  episode_end_mode <- tibble(episode_end_mode =  as.character(c(11:19, 21:26, 29, 99,
+                                                  1:9, 99)),
                              episode_end_mode_desc = c(
                                'Discharged to usual accommodation',
                                'Discharged to other than usual accommodation',
@@ -374,7 +374,7 @@ pcoc_dd <- function(variable = 'sex'){
                            data_version = c(rep(3,4), rep(4,8)))
 
 
-  phase_type <- tibble(phase_type = c(1:5),
+  phase_type <- tibble(phase_type = as.character(c(1:5)),
                        phase_type_desc = c(
                          'Stable',
                          'Unstable',
@@ -456,8 +456,8 @@ pcoc_dd <- function(variable = 'sex'){
                    'Comatose or barely rousable',
                    'Not assessed'))
 
-  phase_end_reason <- tibble(phase_end_reason = c(10, 20, 30, 40, 50, 60, 70, 99,
-                                                  10, 20, 30, 40, 50, 60, 99),
+  phase_end_reason <- tibble(phase_end_reason =  as.character(c(10, 20, 30, 40, 50, 60, 70, 99,
+                                                  10, 20, 30, 40, 50, 60, 99)),
                              phase_end_reason_desc = c(
                                'Phase changed to Stable',
                                'Phase changed to Unstable',
@@ -480,13 +480,13 @@ pcoc_dd <- function(variable = 'sex'){
 
   ## Version 4
 
-  assessment_type <- tibble(assessment_type = c(1:3),
+  assessment_type <- tibble(assessment_type =  as.character(c(1:3)),
                             assessment_type_desc = c(
                              "Comprehensive Assessment",
                              "Ongoing Assessment",
                              "Separation Assessment"))
 
-  referral_provider_type <- tibble(referral_provider_type = c(1:9,99),
+  referral_provider_type <- tibble(referral_provider_type =  as.character(c(1:9,99)),
                                    referral_provider_type_desc = c(
                                      "Public Hospital",
                                      "Private Hospital",
@@ -500,7 +500,7 @@ pcoc_dd <- function(variable = 'sex'){
                                      "Not Recorded/Invalid"
                                    ))
 
-  referral_speciality <- tibble(referral_speciality = c(1:17,99),
+  referral_speciality <- tibble(referral_speciality =  as.character(c(1:17,99)),
                                    referral_speciality_desc = c(
                                      "Palliative Care",
                                      "Medical Oncology",
@@ -522,7 +522,7 @@ pcoc_dd <- function(variable = 'sex'){
                                      "Not Recorded/Invalid"
                                    ))
 
-  setting_of_care <- tibble(setting_of_care = c(10,11,20,21,30:32),
+  setting_of_care <- tibble(setting_of_care =  as.character(c(10,11,20,21,30:32)),
                             setting_of_care_desc = c(
                               "Overnight Admitted - Designated Palliative Care Bed",
                               "Overnight Admitted - Non-Designated Palliative Care Bed",
@@ -533,14 +533,14 @@ pcoc_dd <- function(variable = 'sex'){
                               "Community - Other"
                             ))
 
-  setting_of_care_group <- tibble(setting_of_care_group = c(1,2,3),
+  setting_of_care_group <- tibble(setting_of_care_group =  as.character(c(1,2,3)),
                             setting_of_care_group_desc = c(
                               "Inpatient",
                               "Ambulatory",
                               "Community"
                             ))
 
-  patients_usual_accommodation <- tibble(patients_usual_accommodation = c(10,20,30,40,50,99),
+  patients_usual_accommodation <- tibble(patients_usual_accommodation =  as.character(c(10,20,30,40,50,99)),
                                         patients_usual_accommodation_desc = c(
                                           "Private Residence",
                                           "Residential Aged Care Facility",
@@ -550,7 +550,7 @@ pcoc_dd <- function(variable = 'sex'){
                                           "Not Recorded/Invalid"
                                         ))
 
-  patient_location_after_assessment <- tibble(patient_location_after_assessment = c(1:9,99),
+  patient_location_after_assessment <- tibble(patient_location_after_assessment =  as.character(c(1:9,99)),
                                               patient_location_after_assessment_desc = c(
                                                 "Inpatient - Different Hospital",
                                                 "Inpatient - Different Ward in the Same Hospital",
@@ -564,7 +564,7 @@ pcoc_dd <- function(variable = 'sex'){
                                                 "Not Recorded/Invalid"
                                               ))
 
-  carer_availability <- tibble(carer_availability = c(0,1,2,9),
+  carer_availability <- tibble(carer_availability =  as.character(c(0,1,2,9)),
                                carer_availability_desc = c(
                                  "No",
                                  "Yes",
@@ -572,7 +572,7 @@ pcoc_dd <- function(variable = 'sex'){
                                  "Not Recorded/Invalid"
                                ))
 
-  mode_of_assessment <- tibble(mode_of_assessment = c(1:3,9),
+  mode_of_assessment <- tibble(mode_of_assessment =  as.character(c(1:3,9)),
                                mode_of_assessment_desc = c(
                                  "In Person",
                                  "Videoconference",
@@ -580,7 +580,7 @@ pcoc_dd <- function(variable = 'sex'){
                                  "Not Recorded/Invalid"
                                ))
 
-  esas_delirium_rated_by <- tibble(esas_delirium_rated_by = c(1:4,9),
+  esas_delirium_rated_by <- tibble(esas_delirium_rated_by =  as.character(c(1:4,9)),
                                    esas_delirium_rated_by_desc = c(
                                      "Patient",
                                      "Family/Carer",
@@ -589,7 +589,7 @@ pcoc_dd <- function(variable = 'sex'){
                                      "Not Recorded/Invalid Score"
                                    ))
 
-  esas_other_symtpom <- tibble(esas_other_symtpom = c(1:5,8,9),
+  esas_other_symtpom <- tibble(esas_other_symtpom =  as.character(c(1:5,8,9)),
                                esas_other_symtpom_desc = c(
                                  "Dry or Sore Mouth",
                                  "Itch",
