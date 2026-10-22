@@ -1187,7 +1187,7 @@ country_of_birth <- function(cob_codes = cob_codes){
   df_codes <- df_codes %>%
     left_join(df_lookup,
               by = 'country_of_birth') %>%
-    pull(CountryOfBirthDesc)
+    pull(country_of_birth_desc)
 
   return(df_codes)
 }
