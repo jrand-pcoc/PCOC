@@ -1172,7 +1172,7 @@ preferred_language <- function(language_codes = pref){
    df_codes <- df_codes %>%
      left_join(df_lookup,
                by = 'preferred_language') %>%
-     pull(PreferredLanguageDesc)
+     pull(preferred_language_desc)
 
    return(df_codes)
 }
