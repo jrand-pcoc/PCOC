@@ -931,60 +931,60 @@ benchmarks <- function(data = df_report_all,
     df_bm3 <- data %>%
       filter(!is.na(report_id),
              episode_setting_group %in% c(1:3)) %>%
-      mutate(bm31_phases = case_when(pcpss_pain_group_start == 0 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+      mutate(bm3.1 = case_when(pcpss_pain_group_start == 0 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      pcpss_pain_group_start == 0 & pcpss_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm32_phases = case_when(pcpss_pain_group_start == 1 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.2 = case_when(pcpss_pain_group_start == 1 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      pcpss_pain_group_start == 1 & pcpss_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm33_phases = case_when(esas_pain_group_start == 0 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.3 = case_when(esas_pain_group_start == 0 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_pain_group_start == 0 & esas_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm34_phases = case_when(esas_pain_group_start == 1 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.4 = case_when(esas_pain_group_start == 1 & esas_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_pain_group_start == 1 & esas_pain_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm35_phases = case_when(esas_tiredness_group_start == 0 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.5 = case_when(esas_tiredness_group_start == 0 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_tiredness_group_start == 0 & esas_tiredness_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm36_phases = case_when(esas_tiredness_group_start == 1 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.6 = case_when(esas_tiredness_group_start == 1 & esas_tiredness_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_tiredness_group_start == 1 & esas_tiredness_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm37_phases = case_when(esas_shortness_of_breath_group_start == 0 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.7 = case_when(esas_shortness_of_breath_group_start == 0 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_shortness_of_breath_group_start == 0 & esas_shortness_of_breath_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm38_phases = case_when(esas_shortness_of_breath_group_start == 1 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.8 = case_when(esas_shortness_of_breath_group_start == 1 & esas_shortness_of_breath_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      esas_shortness_of_breath_group_start == 1 & esas_shortness_of_breath_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm39_phases = case_when(pcpss_family_carer_group_start == 0 & pcpss_family_carer_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.9 = case_when(pcpss_family_carer_group_start == 0 & pcpss_family_carer_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                      pcpss_family_carer_group_start == 0 & pcpss_family_carer_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                      TRUE ~ 'Not recorded'),
-             bm310_phases = case_when(pcpss_family_carer_group_start == 1 & pcpss_family_carer_group_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.10 = case_when(pcpss_family_carer_group_start == 1 & pcpss_family_carer_group_end == 0 & phase_end_reason != 50 ~ 'met',
                                       pcpss_family_carer_group_start == 1 & pcpss_family_carer_group_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'),
-             bm311_phases = case_when(pcpss_psychological_spiritual_start == 0 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.11 = case_when(pcpss_psychological_spiritual_start == 0 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
                                       pcpss_psychological_spiritual_start == 0 & pcpss_psychological_spiritual_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'),
-             bm312_phases = case_when(pcpss_psychological_spiritual_start == 1 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
+             bm3.12 = case_when(pcpss_psychological_spiritual_start == 1 & pcpss_psychological_spiritual_end == 0 & phase_end_reason != 50 ~ 'met',
                                       pcpss_psychological_spiritual_start == 1 & pcpss_psychological_spiritual_end == 1 & phase_end_reason != 50 ~ 'nmet',
                                       TRUE ~ 'Not recorded'))
 
     df_bm3 <- df_bm3 %>%
-      select(report, service_id, report_id, patient_id, episode_id, episode_setting_group, episode_setting, phase_type, phase_id, starts_with('bm3')) %>%
-      filter(bm31_phases %in% c('met','nmet')|
-               bm32_phases %in% c('met','nmet')|
-               bm33_phases %in% c('met','nmet')|
-               bm34_phases %in% c('met','nmet')|
-               bm35_phases %in% c('met','nmet')|
-               bm36_phases %in% c('met','nmet')|
-               bm37_phases %in% c('met','nmet')|
-               bm38_phases %in% c('met','nmet')|
-               bm39_phases %in% c('met','nmet')|
-               bm310_phases %in% c('met','nmet')|
-               bm311_phases %in% c('met','nmet')|
-               bm312_phases %in% c('met','nmet'))
+      select(report, service_id, report_id, patient_id, episode_id, phase_id, starts_with('bm3')) %>%
+      filter(bm3.1 %in% c('met','nmet')|
+               bm3.2 %in% c('met','nmet')|
+               bm3.3 %in% c('met','nmet')|
+               bm3.4 %in% c('met','nmet')|
+               bm3.5 %in% c('met','nmet')|
+               bm3.6 %in% c('met','nmet')|
+               bm3.7 %in% c('met','nmet')|
+               bm3.8 %in% c('met','nmet')|
+               bm3.9 %in% c('met','nmet')|
+               bm3.10 %in% c('met','nmet')|
+               bm3.11 %in% c('met','nmet')|
+               bm3.12 %in% c('met','nmet'))
 
     #
-    process_phases <- function(data = df_bm3, phase_col = "bm32_phases") {
+    process_phases <- function(data = df_bm3, phase_col = "bm3.2") {
 
       dd <- data %>%
         filter(.data[[phase_col]] %in% c('met', 'nmet'),
@@ -1010,53 +1010,53 @@ benchmarks <- function(data = df_report_all,
 
       dd <- dd %>%
         mutate(perc_met = met / (`nmet` + met) * 100,
-               bm = phase_col)
+               benchmark = phase_col)
       return(dd)
     }
 
     # bm3.1
-    tbl_bm3 <- process_phases(df_bm3, "bm31_phases")
+    tbl_bm3 <- process_phases(df_bm3, "bm3.1")
 
     # bm3.2
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm32_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.2"))
 
     #bm3.3
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm33_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.3"))
 
     #bm3.4
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm34_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.4"))
 
     #bm3.5
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm35_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.5"))
 
     #bm3.6
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm36_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.6"))
 
     #bm3.7
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm37_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.7"))
 
     #bm3.8
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm38_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.8"))
 
     #bm3.9
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm39_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.9"))
 
     #bm3.10
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm310_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.10"))
 
     #bm3.11
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm311_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.11"))
 
     #bm3.12
-    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm312_phases"))
+    tbl_bm3 <- bind_rows(tbl_bm3,process_phases(df_bm3, "bm3.12"))
 
     if(length(report_ids)==1){
       tbl_bm3 <- tbl_bm3 %>%
         mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N'),
                denom = met + nmet) %>%
         ungroup() %>%
-        group_by(bm,!!!syms(rank_within)) %>%
-        arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
+        group_by(benchmark,!!!syms(rank_within)) %>%
+        arrange(benchmark,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
         filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
@@ -1068,7 +1068,7 @@ benchmarks <- function(data = df_report_all,
         mutate(sel_serv = ifelse(report_id %in% c(report_ids), 'Y','N'),
                denom = met + nmet) %>%
         mutate(comb_reportid = ifelse(report_id %in% c(report_ids), 'sel',report_id)) %>%
-        group_by(report, comb_reportid, bm) %>%
+        group_by(report, comb_reportid, benchmark) %>%
         mutate(report_id = ifelse(sel_serv == 'Y', 'sel',report_id),
                met = ifelse(sel_serv == 'Y', sum(met),met),
                nmet = ifelse(sel_serv == 'Y', sum(nmet),nmet),
@@ -1077,8 +1077,8 @@ benchmarks <- function(data = df_report_all,
         unique() %>%
         mutate(perc_met = met/denom*100) %>%
         ungroup() %>%
-        group_by(bm,!!!syms(rank_within)) %>%
-        arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
+        group_by(benchmark,!!!syms(rank_within)) %>%
+        arrange(benchmark,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
         filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
@@ -1092,8 +1092,8 @@ benchmarks <- function(data = df_report_all,
                denom = met + nmet) %>%
         mutate(perc_met = met/denom*100) %>%
         ungroup() %>%
-        group_by(bm,!!!syms(rank_within)) %>%
-        arrange(bm,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
+        group_by(benchmark,!!!syms(rank_within)) %>%
+        arrange(benchmark,!!!lapply(rank_within, function(col) call2(desc, sym(col))), desc(perc_met)) %>%
         filter(denom >= 10 | (report_id %in% report_ids & denom != 0)) %>%
         mutate(rank = row_number()) %>%
         mutate(cdf = 100 - (rank - 1) / (max(rank) - 1) * 100) %>%
@@ -1141,14 +1141,14 @@ benchmarks <- function(data = df_report_all,
                      names_to = 'name',
                      values_to = 'xcas') %>%
         mutate(name = gsub('_xcas_2014_mean','',name)) %>%
-        mutate(bm = case_when(grepl('pcpss_pain',name) ~ 'bm41_phases',
-                              grepl('pcpss_other_symptom',name) ~ 'bm42_phases',
-                              grepl('pcpss_family_carer',name) ~ 'bm43_phases',
-                              grepl('pcpss_psychological_spiritual',name) ~ 'bm44_phases',
-                              grepl('esas_pain',name) ~ 'bm45_phases',
-                              grepl('esas_nausea',name) ~ 'bm46_phases',
-                              grepl('esas_shortness_of_breath',name) ~ 'bm47_phases',
-                              grepl('esas_constipation',name) ~ 'bm48_phases',
+        mutate(benchmark = case_when(grepl('pcpss_pain',name) ~ 'bm4.1',
+                              grepl('pcpss_other_symptom',name) ~ 'bm4.2',
+                              grepl('pcpss_family_carer',name) ~ 'bm4.3',
+                              grepl('pcpss_psychological_spiritual',name) ~ 'bm4.4',
+                              grepl('esas_pain',name) ~ 'bm4.5',
+                              grepl('esas_nausea',name) ~ 'bm4.6',
+                              grepl('esas_shortness_of_breath',name) ~ 'bm4.7',
+                              grepl('esas_constipation',name) ~ 'bm4.8',
                               TRUE ~ '-'))
 
     tbl_bm4_sel_curr <- tbl_bm4 %>%
