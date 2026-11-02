@@ -696,7 +696,13 @@ pcoc_theme_hc <- highcharter::hc_theme(
 # pre filter df_report_all for add filter elements
 # require(rlang)
 
-benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks = 'all', group_by = c('report', 'report_id',"episode_setting_group"), rank_within = c('report','episode_setting_group'), current_report = 38, Report_ID_split = 'N'){
+benchmarks <- function(data = df_report_all,
+                       report_ids = c('P291'),
+                       benchmarks = 'all',
+                       group_by = c('report', 'report_id',"episode_setting_group"),
+                       rank_within = c('report','episode_setting_group'),
+                       current_report = 38,
+                       Report_ID_split = 'N'){
 
   curr_report_num <- current_report
 
@@ -963,7 +969,7 @@ benchmarks <- function(data = df_report_all, report_ids = c('P291'), benchmarks 
                                       TRUE ~ 'Not recorded'))
 
     df_bm3 <- df_bm3 %>%
-      select(report, service_id, report_id, patient_id, episode_id, episode_setting_group, phase_type, phase_id, starts_with('bm3')) %>%
+      select(report, service_id, report_id, patient_id, episode_id, episode_setting_group, episode_setting, phase_type, phase_id, starts_with('bm3')) %>%
       filter(bm31_phases %in% c('met','nmet')|
                bm32_phases %in% c('met','nmet')|
                bm33_phases %in% c('met','nmet')|
