@@ -969,7 +969,7 @@ benchmarks <- function(data = df_report_all,
                                       TRUE ~ 'Not recorded'))
 
     df_bm3 <- df_bm3 %>%
-      select(report, service_id, report_id, patient_id, episode_id, phase_id, starts_with('bm3')) %>%
+      select(report, service_id, report_id, patient_id, episode_id, phase_id, select(all_of(group_by)), starts_with('bm3')) %>%
       filter(bm3.1 %in% c('met','nmet')|
                bm3.2 %in% c('met','nmet')|
                bm3.3 %in% c('met','nmet')|
