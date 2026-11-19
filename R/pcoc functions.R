@@ -714,7 +714,7 @@ benchmarks <- function(data = df_report_all,
     if(length(report_ids)==1){
 
       tbl_bm1 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                !is.na(first_phase),
                ready_for_care_to_episode_start >= 0,
                flag_start_in_scope == 1,
@@ -743,7 +743,7 @@ benchmarks <- function(data = df_report_all,
     if(length(report_ids)>1 & Report_ID_split == 'N'){
 
       tbl_bm1 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                !is.na(first_phase),
                ready_for_care_to_episode_start >= 0,
                flag_start_in_scope == 1,
@@ -782,7 +782,7 @@ benchmarks <- function(data = df_report_all,
     if(length(report_ids)>1 & Report_ID_split == 'Y'){
 
       tbl_bm1 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                !is.na(first_phase),
                ready_for_care_to_episode_start >= 0,
                flag_start_in_scope == 1,
@@ -830,7 +830,7 @@ benchmarks <- function(data = df_report_all,
 
     if(length(report_ids)==1){
       tbl_bm2 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                phase_type == 2,
                flag_less_than_4 %in% c(0,1),
                !is.na(report_id),
@@ -856,7 +856,7 @@ benchmarks <- function(data = df_report_all,
 
     if(length(report_ids)>1 & Report_ID_split == 'N'){
       tbl_bm2 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                phase_type == 2,
                flag_less_than_4 %in% c(0,1),
                !is.na(report_id),
@@ -892,7 +892,7 @@ benchmarks <- function(data = df_report_all,
 
     if(length(report_ids)>1 & Report_ID_split == 'Y'){
       tbl_bm2 <- data %>%
-        filter(outcome_data == outcome_filter,
+        filter(outcome_data %in% c(outcome_filter),
                phase_type == 2,
                flag_less_than_4 %in% c(0,1),
                !is.na(report_id),
@@ -936,7 +936,7 @@ benchmarks <- function(data = df_report_all,
   if(benchmarks %in% c('3','all')){
 
     df_bm3 <- data %>%
-      filter(outcome_data == outcome_filter,
+      filter(outcome_data %in% c(outcome_filter),
              !is.na(report_id),
              episode_setting_group %in% c(1:3)) %>%
       mutate(bm3.1 = case_when(pcpss_pain_group_start == 0 & pcpss_pain_group_end == 0 & phase_end_reason != 50 ~ 'met',
